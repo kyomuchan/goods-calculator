@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>グッズ電卓</title>
+    <link rel="stylesheet" href="css/pc.css" />
+    <link rel="stylesheet" href="css/sp.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@900&family=Zen+Maru+Gothic&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!--ヘッダー-->
+    <header>
+      <h1 @click="setName">{{name}}</h1>
+      <div class="btn">
+        <img @click.once="shipping" src="img/local_shipping.png" width="40px" />
+        <p class="ship">￥{{ship}}</p>
+        <input
+          type="radio"
+          name="ope"
+          v-model="ope"
+          value="＋"
+          id="add-btn"
+        /><label for="add-btn">＋</label>
+        <input
+          type="radio"
+          name="ope"
+          v-model="ope"
+          value="－"
+          id="remove-btn"
+        /><label for="remove-btn">－</label>
+        <p :style="style" id="total" class="total">￥{{total}}</p>
+      </div>
+    </header>
+
+    <!--欲しいものリスト-->
+    <details>
+      <summary>欲しいものリスト</summary>
+      <ul class="want-list"></ul>
+    </details>
+
+    <!--グッズリスト-->
+    <ul class="goods-list">
+      <!--缶バッジ-->
+      <li class="goods-item">
+        <div @click="add(list[0].unit,0, $event) " class="goods-img">
+          <img src="img/缶バッジ.PNG" alt="缶バッジ" />
+        </div>
+        <p class="goods-name">缶バッジ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(0)">{{list[0].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--アクリルキーホルダー-->
+      <li class="goods-item">
+        <div @click="add(list[1].unit,1)" class="goods-img">
+          <img src="img/アクキー.PNG" alt="アクリルキーホルダー" />
+        </div>
+        <p class="goods-name">アクリルキーホルダー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(1)">{{list[1].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--アクリルスタンド-->
+      <li class="goods-item">
+        <div @click="add(list[2].unit,2)" class="goods-img">
+          <img src="img/アクスタ.PNG" alt="アクリルスタンド" />
+        </div>
+        <p class="goods-name">アクリルスタンド</p>
+        <div class="goods-unit">
+          <p @click="setUnit(2)">{{list[2].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--フィギュア-->
+      <li class="goods-item">
+        <div @click="add(list[3].unit,3)" class="goods-img">
+          <img src="img/フィギュア.PNG" alt="フィギュア" />
+        </div>
+        <p class="goods-name">フィギュア</p>
+        <div class="goods-unit">
+          <p @click="setUnit(3)">{{list[3].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ぬいぐるみ-->
+      <li class="goods-item">
+        <div @click="add(list[4].unit,4)" class="goods-img">
+          <img src="img/ぬいぐるみ.PNG" alt="ぬいぐるみ" />
+        </div>
+        <p class="goods-name">ぬいぐるみ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(4)">{{list[4].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--トレーディングカード-->
+      <li class="goods-item">
+        <div @click="add(list[5].unit,5)" class="goods-img">
+          <img src="img/トレカ.PNG" alt="トレーディングカード" />
+        </div>
+        <p class="goods-name">トレーディングカード</p>
+        <div class="goods-unit">
+          <p @click="setUnit(5)">{{list[5].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ブロマイド-->
+      <li class="goods-item">
+        <div @click="add(list[6].unit,6)" class="goods-img">
+          <img src="img/ブロマイド.PNG" alt="ブロマイド" />
+        </div>
+        <p class="goods-name">ブロマイド</p>
+        <div class="goods-unit">
+          <p @click="setUnit(6)">{{list[6].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--うちわ-->
+      <li class="goods-item">
+        <div @click="add(list[7].unit,7)" class="goods-img">
+          <img src="img/うちわ.PNG" alt="うちわ" />
+        </div>
+        <p class="goods-name">うちわ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(7)">{{list[7].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ペンライト-->
+      <li class="goods-item">
+        <div @click="add(list[8].unit,8)" class="goods-img">
+          <img src="img/ペンライト.PNG" alt="ペンライト" />
+        </div>
+        <p class="goods-name">ペンライト</p>
+        <div class="goods-unit">
+          <p @click="setUnit(8)">{{list[8].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--リングライト-->
+      <li class="goods-item">
+        <div @click="add(list[9].unit,9)" class="goods-img">
+          <img src="img/リングライト.PNG" alt="リングライト" />
+        </div>
+        <p class="goods-name">リングライト</p>
+        <div class="goods-unit">
+          <p @click="setUnit(9)">{{list[9].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ステッカー-->
+      <li class="goods-item">
+        <div @click="add(list[10].unit,10)" class="goods-img">
+          <img src="img/ステッカー.PNG" alt="ステッカー" />
+        </div>
+        <p class="goods-name">ステッカー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(10)">{{list[10].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--アクリルバングル-->
+      <li class="goods-item">
+        <div @click="add(list[11].unit,11)" class="goods-img">
+          <img src="img/アクリルバングル.PNG" alt="アクリルバングル" />
+        </div>
+        <p class="goods-name">アクリルバングル</p>
+        <div class="goods-unit">
+          <p @click="setUnit(11)">{{list[11].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--シリコンバンド-->
+      <li class="goods-item">
+        <div @click="add(list[12].unit,12)" class="goods-img">
+          <img src="img/シリコンバンド.PNG" alt="シリコンバンド" />
+        </div>
+        <p class="goods-name">シリコンバンド</p>
+        <div class="goods-unit">
+          <p @click="setUnit(12)">{{list[12].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--タペストリー-->
+      <li class="goods-item">
+        <div @click="add(list[13].unit,13)" class="goods-img">
+          <img src="img/タペストリー.PNG" alt="タペストリー" />
+        </div>
+        <p class="goods-name">タペストリー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(13)">{{list[13].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--マフラータオル-->
+      <li class="goods-item">
+        <div @click="add(list[14].unit,14)" class="goods-img">
+          <img src="img/マフラータオル.PNG" alt="マフラータオル" />
+        </div>
+        <p class="goods-name">マフラータオル</p>
+        <div class="goods-unit">
+          <p @click="setUnit(14)">{{list[14].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--バスタオル-->
+      <li class="goods-item">
+        <div @click="add(list[15].unit,15)" class="goods-img">
+          <img src="img/バスタオル.PNG" alt="バスタオル" />
+        </div>
+        <p class="goods-name">バスタオル</p>
+        <div class="goods-unit">
+          <p @click="setUnit(15)">{{list[15].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ハンカチ-->
+      <li class="goods-item">
+        <div @click="add(list[16].unit,16)" class="goods-img">
+          <img src="img/ハンカチ.PNG" alt="ハンカチ" />
+        </div>
+        <p class="goods-name">ハンカチ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(16)">{{list[16].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ブランケット-->
+      <li class="goods-item">
+        <div @click="add(list[17].unit,17)" class="goods-img">
+          <img src="img/ブランケット.PNG" alt="ブランケット" />
+        </div>
+        <p class="goods-name">ブランケット</p>
+        <div class="goods-unit">
+          <p @click="setUnit(17)">{{list[17].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--コップ-->
+      <li class="goods-item">
+        <div @click="add(list[18].unit,18)" class="goods-img">
+          <img src="img/コップ.PNG" alt="コップ" />
+        </div>
+        <p class="goods-name">コップ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(18)">{{list[18].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--タンブラー-->
+      <li class="goods-item">
+        <div @click="add(list[19].unit,19)" class="goods-img">
+          <img src="img/タンブラー.PNG" alt="タンブラー" />
+        </div>
+        <p class="goods-name">タンブラー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(19)">{{list[19].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--コースター-->
+      <li class="goods-item">
+        <div @click="add(list[20].unit,20)" class="goods-img">
+          <img src="img/コースター.PNG" alt="コースター" />
+        </div>
+        <p class="goods-name">コースター</p>
+        <div class="goods-unit">
+          <p @click="setUnit(20)">{{list[20].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--スマホカバー-->
+      <li class="goods-item">
+        <div @click="add(list[21].unit,21)" class="goods-img">
+          <img src="img/スマホカバー.PNG" alt="スマホカバー" />
+        </div>
+        <p class="goods-name">スマホカバー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(21)">{{list[21].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--スマホリング-->
+      <li class="goods-item">
+        <div @click="add(list[22].unit,22)" class="goods-img">
+          <img src="img/スマホリング.PNG" alt="スマホリング" />
+        </div>
+        <p class="goods-name">スマホリング</p>
+        <div class="goods-unit">
+          <p @click="setUnit(22)">{{list[22].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ケーブルカバー-->
+      <li class="goods-item">
+        <div @click="add(list[23].unit,23)" class="goods-img">
+          <img src="img/ケーブルカバー.PNG" alt="ケーブルカバー" />
+        </div>
+        <p class="goods-name">ケーブルカバー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(23)">{{list[23].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ヘアクリップ-->
+      <li class="goods-item">
+        <div @click="add(list[24].unit,24)" class="goods-img">
+          <img src="img/ヘアクリップ.PNG" alt="ヘアクリップ" />
+        </div>
+        <p class="goods-name">ヘアクリップ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(24)">{{list[24].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ミラー-->
+      <li class="goods-item">
+        <div @click="add(list[25].unit,25)" class="goods-img">
+          <img src="img/ミラー.PNG" alt="ミラー" />
+        </div>
+        <p class="goods-name">ミラー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(25)">{{list[25].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--シュシュ-->
+      <li class="goods-item">
+        <div @click="add(list[26].unit,26)" class="goods-img">
+          <img src="img/シュシュ.PNG" alt="シュシュ" />
+        </div>
+        <p class="goods-name">シュシュ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(26)">{{list[26].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--カチューシャ-->
+      <li class="goods-item">
+        <div @click="add(list[27].unit,27)" class="goods-img">
+          <img src="img/カチューシャ.PNG" alt="カチューシャ" />
+        </div>
+        <p class="goods-name">カチューシャ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(27)">{{list[27].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--イヤリング-->
+      <li class="goods-item">
+        <div @click="add(list[28].unit,28)" class="goods-img">
+          <img src="img/イヤリング.PNG" alt="イヤリング" />
+        </div>
+        <p class="goods-name">イヤリング</p>
+        <div class="goods-unit">
+          <p @click="setUnit(28)">{{list[28].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--カレンダー-->
+      <li class="goods-item">
+        <div @click="add(list[29].unit,29)" class="goods-img">
+          <img src="img/カレンダー.PNG" alt="カレンダー" />
+        </div>
+        <p class="goods-name">カレンダー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(29)">{{list[29].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--クリアファイル-->
+      <li class="goods-item">
+        <div @click="add(list[30].unit,30)" class="goods-img">
+          <img src="img/クリアファイル.PNG" alt="クリアファイル" />
+        </div>
+        <p class="goods-name">クリアファイル</p>
+        <div class="goods-unit">
+          <p @click="setUnit(30)">{{list[30].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--マスキングテープ-->
+      <li class="goods-item">
+        <div @click="add(list[31].unit,31)" class="goods-img">
+          <img src="img/マスキングテープ.PNG" alt="マスキングテープ" />
+        </div>
+        <p class="goods-name">マスキングテープ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(31)">{{list[31].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ペンケース-->
+      <li class="goods-item">
+        <div @click="add(list[32].unit,32)" class="goods-img">
+          <img src="img/ペンケース.PNG" alt="ペンケース" />
+        </div>
+        <p class="goods-name">ペンケース</p>
+        <div class="goods-unit">
+          <p @click="setUnit(32)">{{list[32].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--下敷き-->
+      <li class="goods-item">
+        <div @click="add(list[33].unit,33)" class="goods-img">
+          <img src="img/下敷き.PNG" alt="下敷き" />
+        </div>
+        <p class="goods-name">下敷き</p>
+        <div class="goods-unit">
+          <p @click="setUnit(33)">{{list[33].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--レターセット-->
+      <li class="goods-item">
+        <div @click="add(list[34].unit,34)" class="goods-img">
+          <img src="img/レターセット.PNG" alt="レターセット" />
+        </div>
+        <p class="goods-name">レターセット</p>
+        <div class="goods-unit">
+          <p @click="setUnit(34)">{{list[34].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ノート-->
+      <li class="goods-item">
+        <div @click="add(list[35].unit,35)" class="goods-img">
+          <img src="img/ノート.PNG" alt="ノート" />
+        </div>
+        <p class="goods-name">ノート</p>
+        <div class="goods-unit">
+          <p @click="setUnit(35)">{{list[35].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ふせん-->
+      <li class="goods-item">
+        <div @click="add(list[36].unit,36)" class="goods-img">
+          <img src="img/ふせん.PNG" alt="ふせん" />
+        </div>
+        <p class="goods-name">ふせん</p>
+        <div class="goods-unit">
+          <p @click="setUnit(36)">{{list[36].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--Tシャツ-->
+      <li class="goods-item">
+        <div @click="add(list[37].unit,37)" class="goods-img">
+          <img src="img/Tシャツ.PNG" alt="Tシャツ" />
+        </div>
+        <p class="goods-name">Tシャツ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(37)">{{list[37].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ロングＴシャツ-->
+      <li class="goods-item">
+        <div @click="add(list[38].unit,38)" class="goods-img">
+          <img src="img/ロングTシャツ.PNG" alt="ロングTシャツ" />
+        </div>
+        <p class="goods-name">ロングTシャツ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(38)">{{list[38].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--パーカー-->
+      <li class="goods-item">
+        <div @click="add(list[39].unit,39)" class="goods-img">
+          <img src="img/パーカー.PNG" alt="パーカー" />
+        </div>
+        <p class="goods-name">パーカー</p>
+        <div class="goods-unit">
+          <p @click="setUnit(39)">{{list[39].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--ポーチ-->
+      <li class="goods-item">
+        <div @click="add(list[40].unit,40)" class="goods-img">
+          <img src="img/ポーチ.PNG" alt="ポーチ" />
+        </div>
+        <p class="goods-name">ポーチ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(40)">{{list[40].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--トートバッグ-->
+      <li class="goods-item">
+        <div @click="add(list[41].unit,41)" class="goods-img">
+          <img src="img/トートバッグ.PNG" alt="トートバッグ" />
+        </div>
+        <p class="goods-name">トートバッグ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(41)">{{list[41].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--エコバッグ-->
+      <li class="goods-item">
+        <div @click="add(list[42].unit,42)" class="goods-img">
+          <img src="img/エコバッグ.PNG" alt="エコバッグ" />
+        </div>
+        <p class="goods-name">エコバッグ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(42)">{{list[42].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--サコッシュ-->
+      <li class="goods-item">
+        <div @click="add(list[43].unit,43)" class="goods-img">
+          <img src="img/サコッシュ.PNG" alt="サコッシュ" />
+        </div>
+        <p class="goods-name">サコッシュ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(43)">{{list[43].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--キャップ-->
+      <li class="goods-item">
+        <div @click="add(list[44].unit,44)" class="goods-img">
+          <img src="img/キャップ.PNG" alt="キャップ" />
+        </div>
+        <p class="goods-name">キャップ</p>
+        <div class="goods-unit">
+          <p @click="setUnit(44)">{{list[44].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+      <!--クッション-->
+      <li class="goods-item">
+        <div @click="add(list[45].unit,45)" class="goods-img">
+          <img src="img/クッション.PNG" alt="クッション" />
+        </div>
+        <p class="goods-name">クッション</p>
+        <div class="goods-unit">
+          <p @click="setUnit(45)">{{list[45].unit}}</p>
+          <p>円</p>
+        </div>
+      </li>
+    </ul>
+
+    <script src="https://unpkg.com/petite-vue"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
