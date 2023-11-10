@@ -161,9 +161,9 @@ img {
   }
 
   .want-list h3 {
+    width:90%
     font-size: 2.0rem;
     font-weight: lighter;
-    margin-left: 2%;
   }
 
   /* 個数 - 個数×単価 */
