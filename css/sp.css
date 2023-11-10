@@ -154,7 +154,6 @@ img {
   }
 
   .want-item {
-    width: 90%;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -164,7 +163,7 @@ img {
   .want-list h3 {
     font-size: 2.0rem;
     font-weight: lighter;
-    margin-left: 2%;
+    margin-left: 5%;
   }
 
   /* 個数 - 個数×単価 */
