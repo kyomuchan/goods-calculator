@@ -164,13 +164,11 @@
 
   .qty {
     font-size: 2.8rem;
-    /* font-weight: bold; */
     width: 20%;
   }
 
   .price {
     font-size: 2.8rem;
-    /* font-weight: bold; */
     margin-right: 15%;
     width: 20%;
   }
