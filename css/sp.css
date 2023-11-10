@@ -161,7 +161,7 @@ img {
   }
 
   .want-list h3 {
-    font-size: 2.4rem;
+    font-size: 2.0rem;
     font-weight: lighter;
     margin-left: 2%;
   }
@@ -176,12 +176,12 @@ img {
   }
 
   .qty {
-    font-size: 2.4rem;
+    font-size: 2.0rem;
     width: 20%;
   }
 
   .price {
-    font-size: 2.4rem;
+    font-size: 2.0rem;
     margin-right: 20%;
     width: 20%;
   }
