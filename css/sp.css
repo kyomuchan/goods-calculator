@@ -154,6 +154,7 @@ img {
   }
 
   .want-item {
+    width:90%;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -161,7 +162,6 @@ img {
   }
 
   .want-list h3 {
-    width:90%;
     font-size: 2.0rem;
     font-weight: lighter;
   }
